@@ -2,19 +2,22 @@ package com.example.duklin.labintents;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnExplicit, btnImplicit, btnSendMsg;
+    private Button btnExplicit, btnImplicit, btnSendMsg, btnShowImg;
     private TextView textView;
     private static final int EXPLICIT_INTENT_CODE = 1000;
     public static final String EXPLICIT_INTENT_TEXT_KEY = "text";
+    private static final int IMPLICIT_IMAGE_INTENT_CODE = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(Intent.createChooser(intent, "Send"));
             }
         });
+        btnShowImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent,IMPLICIT_IMAGE_INTENT_CODE);
+            }
+        });
     }
 
     @Override
@@ -55,7 +66,14 @@ public class MainActivity extends AppCompatActivity {
             textView.setText(text);
             return;
         }
-
+        if(requestCode==IMPLICIT_IMAGE_INTENT_CODE && resultCode==RESULT_OK)
+        {
+            Uri pictureUri = data.getData();
+            Log.i("ImageURI", pictureUri.toString());
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(pictureUri,"image/*");
+            startActivity(Intent.createChooser(intent,"Show using?"));
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -64,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         btnExplicit = (Button) findViewById(R.id.btn_explicit_intent);
         btnImplicit = (Button) findViewById(R.id.btn_implicit_intent);
         btnSendMsg = (Button) findViewById(R.id.btn_send_message);
+        btnShowImg = (Button) findViewById(R.id.btn_show_image);
     }
 
 
