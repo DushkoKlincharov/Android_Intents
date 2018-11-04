@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">LabIntents</string>
+    <string name="btn_explicit_intent">Explicit</string>
+    <string name="btn_implicit_intent">Implicit</string>
+    <string name="btn_send_message">Send message</string>
+    <string name="btn_ok">Во ред</string>
+    <string name="btn_cancel">Откажи</string>
+</resources>
