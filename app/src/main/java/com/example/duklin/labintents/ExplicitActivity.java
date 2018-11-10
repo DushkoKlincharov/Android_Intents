@@ -19,10 +19,21 @@ public class ExplicitActivity extends AppCompatActivity {
         setContentView(R.layout.activity_explicit);
 
         initializeViews();
-        setEventListeners();
+        setClickListeners();
     }
 
-    private void setEventListeners() {
+    private void setClickListeners() {
+        btnOkClickListener();
+        btnCancelClickListener();
+    }
+
+    private void initializeViews(){
+        editText = (EditText) findViewById(R.id.edit_text);
+        btnOk = (Button) findViewById(R.id.btn_ok);
+        btnCancel = (Button) findViewById(R.id.btn_cancel);
+    }
+
+    private void btnOkClickListener(){
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,6 +44,9 @@ public class ExplicitActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void btnCancelClickListener(){
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,11 +55,5 @@ public class ExplicitActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    private void initializeViews(){
-        editText = (EditText) findViewById(R.id.edit_text);
-        btnOk = (Button) findViewById(R.id.btn_ok);
-        btnCancel = (Button) findViewById(R.id.btn_cancel);
     }
 }

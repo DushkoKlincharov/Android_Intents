@@ -25,42 +25,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initializeViews();
-        btnExplicit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ExplicitActivity.class);
-                startActivityForResult(intent, MainActivity.EXPLICIT_INTENT_CODE);
-            }
-        });
-        btnImplicit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent("mk.ukim.finki.mpip.IMPLICIT_ACTION");
-                startActivity(intent);
-            }
-        });
-        btnSendMsg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/*");
-                intent.putExtra(Intent.EXTRA_SUBJECT, "MPiP Send Title");
-                intent.putExtra(Intent.EXTRA_TEXT, "Content send from MainActivity");
-                startActivity(Intent.createChooser(intent, "Send"));
-            }
-        });
-        btnShowImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                startActivityForResult(intent,IMPLICIT_IMAGE_INTENT_CODE);
-            }
-        });
+        setClickListeners();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == MainActivity.EXPLICIT_INTENT_CODE && resultCode == Activity.RESULT_OK){
             String text = data.getStringExtra(MainActivity.EXPLICIT_INTENT_TEXT_KEY);
             textView.setText(text);
@@ -74,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             intent.setDataAndType(pictureUri,"image/*");
             startActivity(Intent.createChooser(intent,"Show using?"));
         }
-        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     private void initializeViews(){
@@ -83,6 +53,58 @@ public class MainActivity extends AppCompatActivity {
         btnImplicit = (Button) findViewById(R.id.btn_implicit_intent);
         btnSendMsg = (Button) findViewById(R.id.btn_send_message);
         btnShowImg = (Button) findViewById(R.id.btn_show_image);
+
+    }
+
+    private void setClickListeners(){
+        btnExplicitClickListener();
+        btnImplicitClickListener();
+        btnSendMsgClickListener();
+        btnShowImgClickListener();
+    }
+
+    private void btnShowImgClickListener() {
+        btnShowImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent,IMPLICIT_IMAGE_INTENT_CODE);
+            }
+        });
+    }
+
+    private void btnSendMsgClickListener() {
+        btnSendMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/*");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "MPiP Send Title");
+                intent.putExtra(Intent.EXTRA_TEXT, "Content send from MainActivity");
+                startActivity(Intent.createChooser(intent, "Send"));
+            }
+        });
+    }
+
+    private void btnImplicitClickListener() {
+        btnImplicit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent("mk.ukim.finki.mpip.IMPLICIT_ACTION");
+                startActivity(Intent.createChooser(intent, "Choose"));
+            }
+        });
+    }
+
+    private void btnExplicitClickListener() {
+        btnExplicit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ExplicitActivity.class);
+                startActivityForResult(intent, MainActivity.EXPLICIT_INTENT_CODE);
+            }
+        });
     }
 
 
